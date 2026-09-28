@@ -624,33 +624,36 @@ def blendbox():
 
 # ---------------------------------------------------------------- WEBSHOP
 PRODUCTEN = [
-    ("smoothie-configurator-nl", "p-configurator", "Smoothie Configurator", "16+", "Klassieker",
+    ("smoothie-configurator-nl", "p-configurator", "Smoothie Configurator", "Leeftijd 16+", "Klassieker",
      "14 doelgerichte smoothies op basis van 23 ingrediënten uit de supermarkt. Meer energie, een frisse start na een feestje of juist een stevig ontbijt: je ziet in één oogopslag wat erin gaat. Gemaakt op nut, niet op smaak. Durf jij het aan?",
      "8,75", "PDF € 8,75 · gelamineerd € 12,50"),
-    ("kids-smoothie-configurator", "p-kids", "KIDS Smoothie Configurator", "8+", "",
+    ("kids-smoothie-configurator", "p-kids", "KIDS Smoothie Configurator", "Leeftijd 8+", "",
      "Hét hulpmiddel om kinderen meer groente en fruit te laten eten. 15 ingrediënten, elke blend bevat een portie groente en wordt toegankelijk gemaakt met zoet fruit. Laat je kind kiezen: vandaag sterk, slim of cool?",
      "8,75", "PDF € 8,75 · gelamineerd € 12,50"),
-    ("kids-smoothie-challenge", "p-challenge", "KIDS Smoothie Challenge", "6+", "",
+    ("kids-smoothie-challenge", "p-challenge", "KIDS Smoothie Challenge", "Leeftijd 6+", "",
      "In 8 levels leren de jongste kids zelf smoothies maken. Elke dag een level, en na 8 dagen verdienen ze een echt Smoothie Certificaat. Uitdagend, cool en belonend. Altijd samen met een volwassene snijden en blenden.",
      "8,75", "PDF € 8,75 · gelamineerd € 10,95"),
-    ("smoothieclub-totaalpakket", "p-totaal", "Totaalpakket voor het hele gezin", "6+ tot 99", "Voordeligst",
+    ("smoothieclub-totaalpakket", "p-totaal", "Totaalpakket voor het hele gezin", "Leeftijd 6+ tot 99", "Voordeligst",
      "Alle drie de Configurators in één pakket: de Challenge, de KIDS Configurator en de Smoothie Configurator voor volwassenen. Het hele gezin kan direct aan de slag.",
      "19,95", "PDF € 19,95 · gelamineerd € 27,50"),
+    ("adviesgesprek", "p-advies", "Adviesgesprek met Jean-Marc", "Online · 45 minuten", "Persoonlijk",
+     "45 minuten kaderloos sparren over jouw persoonlijke of zakelijke vraag. Over je team, je organisatie of je eigen volgende stap. Je krijgt direct toepasbare ideeën, gebaseerd op 25+ jaar ervaring met verandering.",
+     "87,50", "Inclusief een Smoothie Configurator naar keuze"),
 ]
 
 
 def webshop():
     kaarten = "".join(f"""
-      <article class="product reveal"{' id="kids"' if slug.startswith('kids-smoothie-c') else ''}>
+      <article class="product reveal"{' id="kids"' if slug == 'kids-smoothie-configurator' else ''}>
         {f'<span class="lint">{lint}</span>' if lint else ''}
         <img src="assets/img/{img}.webp" alt="{naam}" loading="lazy" width="700" height="700">
         <div class="in">
-          <span class="label" style="align-self:flex-start;margin-bottom:10px">Leeftijd {leeftijd}</span>
+          <span class="label" style="align-self:flex-start;margin-bottom:10px">{leeftijd}</span>
           <h3>{naam}</h3>
           <p>{tekst}</p>
-          <div class="prijs">vanaf € {prijs}</div>
+          <div class="prijs">{"" if slug == "adviesgesprek" else "vanaf "}€ {prijs}</div>
           <div class="varianten">{var}</div>
-          <a class="knop primair klein" href="{SHOP}{slug}/" rel="noopener">Bestellen</a>
+          <a class="knop primair klein" href="{SHOP}{slug}/" rel="noopener">{"Boek je gesprek" if slug == "adviesgesprek" else "Bestellen"}</a>
         </div>
       </article>""" for slug, img, naam, leeftijd, lint, tekst, prijs, var in PRODUCTEN)
     prod_schema = [{"@context": "https://schema.org", "@type": "Product", "name": naam, "image": f"assets/img/{img}.webp",
@@ -662,9 +665,9 @@ def webshop():
   <img class="bg" src="assets/img/configurators-banner.webp" alt="" fetchpriority="high">
   <div class="wrap">
     <div class="kruimel"><a href="index.html">Home</a> / Webshop</div>
-    <h1>Supergezonde smoothies, <span class="markeer">in één oogopslag</span></h1>
-    <p>Met de Smoothie Configurator weet je precies wat erin gaat en hoeveel. Voor jezelf, voor je kinderen of voor het hele gezin.</p>
-    <div class="knoppen"><a class="knop primair" href="#producten">Bekijk de Configurators</a></div>
+    <h1>Smoothie Configurators en <span class="markeer">advies op maat</span></h1>
+    <p>Met de Smoothie Configurator weet je precies wat erin gaat en hoeveel. Voor jezelf, je kinderen of het hele gezin. Liever persoonlijk sparren? Boek een adviesgesprek van 45 minuten met Jean-Marc.</p>
+    <div class="knoppen"><a class="knop primair" href="#producten">Bekijk de Configurators</a><a class="knop licht" href="#advies">Boek een adviesgesprek</a></div>
   </div>
 </section>
 
@@ -682,11 +685,11 @@ def webshop():
 <section class="sectie" id="producten">
   <div class="wrap">
     <div class="center" style="margin-bottom:40px">
-      <span class="kicker">Onze Configurators</span>
-      <h2>Kies je Configurator</h2>
+      <span class="kicker">Onze producten</span>
+      <h2>Kies wat bij je past</h2>
       <p class="intro">Alle prijzen zijn inclusief btw. Bij de gelamineerde versie komen verzendkosten erbij.</p>
     </div>
-    <div class="raster r4">{kaarten}</div>
+    <div class="producten">{kaarten}</div>
     <p class="center klein" style="margin-top:24px">Bestellen en betalen gaat via de officiële webshop op smoothieclub.nl.</p>
   </div>
 </section>
@@ -719,8 +722,8 @@ def webshop():
 </section>
 {cta("Liever een Blendbox voor je team?", "Configurators met je eigen logo, vers fruit en een persoonlijke videoboodschap. Vraag een voorstel op maat aan.")}
 """
-    return layout("webshop.html", "Webshop: Smoothie Configurators voor volwassenen en kinderen | Smoothieclub",
-                  "Bestel de Smoothie Configurator, de KIDS Configurator, de Smoothie Challenge of het Totaalpakket. Direct als PDF vanaf € 8,75 of gelamineerd. Per Configurator een boom in Kenia.",
+    return layout("webshop.html", "Webshop: Smoothie Configurators en adviesgesprek met Jean-Marc | Smoothieclub",
+                  "Bestel de Smoothie Configurator, de KIDS Configurator, de Smoothie Challenge of het Totaalpakket, direct als PDF vanaf € 8,75. Of boek een adviesgesprek van 45 minuten met Jean-Marc Bilderbeek.",
                   inhoud, [ORG] + prod_schema)
 
 
