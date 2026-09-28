@@ -48,6 +48,14 @@
     });
   });
 
+  // Klik in de ingrediëntenindex: filter terug op "Alles" zodat de kaart zichtbaar is
+  document.querySelectorAll('.ing-index a').forEach(function (a) {
+    a.addEventListener('click', function () {
+      var alle = document.querySelector('.filters button[data-cat="alle"]');
+      if (alle) alle.click();
+    });
+  });
+
   // Offerteformulier: vooraf invullen via ?type=... en versturen als e-mail
   var form = document.getElementById('offerte');
   if (form) {

@@ -728,36 +728,179 @@ def webshop():
 
 
 # ---------------------------------------------------------------- INGREDIENTEN
+# Ingrediënten: bron zijn de basiskaarten en ingrediëntpagina's van de oude smoothieclub.nl.
+# Per ingrediënt: (id/anker, beeld, naam, categorie, portie per smoothie, rijk aan, wat het doet, goed om te weten).
+# Formulering volgt de toegestane Europese voedingsclaims: wat erin zit en waar dat aan bijdraagt, geen genezingsclaims.
 INGR = [
-    ("bleekselderij", "Bleekselderij", "groente", "Fris en licht zoutig. Veel vocht, mooie basis."),
-    ("boerenkool", "Boerenkool", "groente", "Stevig groen. Rauw prima te blenden."),
-    ("broccoli", "Broccoli", "groente", "Groene kracht. Gebruik ook de steel."),
-    ("biet", "Biet", "groente", "Aards en zoetig. Geeft een diepe kleur."),
-    ("paprika", "Paprika", "groente", "Zoet en fris. Rood of geel werkt het best."),
-    ("venkel", "Venkel", "groente", "Licht anijs. Verrassend fris."),
-    ("witlof", "Witlof", "groente", "Licht bitter. Mooi tegenwicht voor zoet fruit."),
-    ("wortel", "Wortel", "groente", "Zoet en oranje. Kinderen vinden hem vaak lekker."),
-    ("peterselie", "Peterselie", "groente", "Frisse kruidenkick. Een handje is genoeg."),
-    ("tarwegras", "Tarwegras", "superfood", "Intens groen. Gebruik een kleine dosis."),
-    ("avocado", "Avocado", "fruit", "Maakt elke blend romig en vol."),
-    ("banaan", "Banaan", "fruit", "Zoet en romig. Een natuurlijke binder."),
-    ("blauwe-bessen", "Blauwe bessen", "fruit", "Zoetzuur. Diepvries werkt ook prima."),
-    ("citroen", "Citroen", "fruit", "Frisse zuren die groene smaken oppeppen."),
-    ("kiwi", "Kiwi", "fruit", "Fris en zuur. Met schil blenden kan."),
-    ("goji", "Goji bes", "fruit", "Gedroogd. Licht zoet en zuur."),
-    ("gember", "Gemberwortel", "fruit", "Pittig en warm. Begin met een klein stukje."),
-    ("amandel", "Amandelen", "zaden", "Nootachtig en romig. Even weken helpt."),
-    ("chia", "Chiazaad", "zaden", "Maakt je smoothie dikker. Laat even staan."),
-    ("hennepzaad", "Hennepzaad", "zaden", "Mild en nootachtig."),
-    ("lijnzaad", "Lijnzaad", "zaden", "Liefst gemalen. Mild van smaak."),
-    ("pompoenpitten", "Pompoenpitten", "zaden", "Groen, nootachtig en knapperig."),
-    ("bijenpollen", "Bijenpollen", "superfood", "Bloemig en zoet. Een theelepel is genoeg."),
-    ("chlorella", "Chlorella poeder", "superfood", "Zeer intens groen. Echt een mespuntje."),
-    ("hennep-eiwit", "Hennep eiwit", "superfood", "Plantaardig poeder, aards van smaak."),
-    ("maca", "Maca poeder", "superfood", "Moutig, met een tikje karamel."),
-    ("kokoswater", "Kokoswater", "basis", "Licht zoete vloeistof. Alternatief voor water."),
-    ("kokosvet", "Kokosolie", "basis", "Geeft body. Een theelepel is genoeg."),
-    ("olijfolie", "Olijfolie (koud geperst)", "basis", "Een scheutje maakt groene blends zachter."),
+    ("bleekselderij", "bleekselderij", "Bleekselderij", "groente", "1/3 bos",
+     ["vitamine B", "vitamine C", "vezels", "water", "antioxidanten"],
+     ["Werkt vochtafdrijvend", "Vezels ondersteunen je spijsvertering", "Vitamine C draagt bij aan je weerstand",
+      "Heel weinig calorieën: verteren kost meer energie dan het oplevert"],
+     "Staat al eeuwen bekend als lustopwekkend."),
+    ("boerenkool", "boerenkool", "Boerenkool", "groente", "2 handjes",
+     ["ijzer", "calcium", "vitamine A", "vitamine C", "omega-3", "vezels"],
+     ["Bevat meer ijzer dan rundvlees: ijzer is nodig voor zuurstoftransport in je bloed",
+      "Vitamine A draagt bij aan een normaal gezichtsvermogen", "Calcium is nodig voor sterke botten",
+      "Vitamine C ondersteunt je immuunsysteem", "Veel vezels, dus lang een verzadigd gevoel"],
+     "Combineer met citroen: vitamine C helpt je lichaam het ijzer op te nemen. Bevroren boerenkool werkt ook prima en koelt meteen je smoothie."),
+    ("broccoli", "broccoli", "Broccoli", "groente", "2 roosjes",
+     ["vezels", "vitamine A", "vitamine C", "foliumzuur", "sulforafaan", "flavonoïden"],
+     ["Vezels dragen bij aan een goede spijsvertering",
+      "Sulforafaan activeert de eigen antioxidatieve afweer van je lichaam",
+      "Foliumzuur is extra belangrijk tijdens de zwangerschap", "Weinig calorieën: 43 kcal per kop"],
+     "Gebruik ook de steel, daar zitten net zoveel voedingsstoffen in."),
+    ("biet", "biet", "Biet (rauw)", "groente", "½ stuk",
+     ["betalaïnen", "antioxidanten", "mangaan"],
+     ["Antioxidanten helpen je cellen te beschermen tegen vrije radicalen",
+      "Betalaïnen ondersteunen de ontstekingsremmende processen in je lichaam",
+      "Mangaan helpt bij de verwerking van vitamine C en B1", "Stimuleert de spijsvertering"],
+     "Altijd rauw gebruiken. Betalaïnen verdwijnen bij koken: na een uur is er vrijwel niets meer van over."),
+    ("paprika", "paprika", "Paprika", "groente", "1 stuk",
+     ["vitamine C", "vezels"],
+     ["Vooral rode paprika zit boordevol vitamine C, goed voor je weerstand",
+      "Veel vezels en voedingsstoffen, weinig calorieën"],
+     "Paprika is familie van de rode peper, maar niet heet. Last van je maag bij rauwe paprika? Haal dan het velletje eraf."),
+    ("venkel", "venkel", "Venkel", "groente", "½ stuk",
+     ["vezels", "etherische oliën"],
+     ["Brengt je darmen tot rust en helpt tegen winderigheid",
+      "Staat bekend om het in balans brengen van vrouwelijke hormoonschommelingen",
+      "Werkt eetlustopwekkend"],
+     "Smaakt licht naar anijs. En je gaat er fris van ruiken."),
+    ("witlof", "witlof", "Witlof", "groente", "",
+     ["vitamine C", "kalium", "mineralen"],
+     ["Kalium is nodig voor je spieren en zenuwstelsel en draagt bij aan een normale bloeddruk",
+      "Handig na flink zweten, bijvoorbeeld bij duursport: dan verlies je extra kalium",
+      "Extreem weinig calorieën"],
+     "Te bitter? Haal de buitenste bladeren weg, snijd het kontje eraf en verwijder de kegelvormige kern. Bewaar witlof donker in de koelkast."),
+    ("wortel", "wortel", "Wortel", "groente", "1 worteltje",
+     ["vezels", "carotenoïden", "mineralen"],
+     ["Carotenoïden worden in je lichaam omgezet in vitamine A, goed voor je ogen",
+      "Boordevol vezels en mineralen",
+      "Onderzoek wijst erop dat wortels de kwaliteit van sperma kunnen verbeteren"],
+     "Rook je? Wees dan zuinig met wortelsap. De concentratie caroteen is daarin veel hoger, en te veel caroteen is voor rokers juist ongunstig."),
+    ("peterselie", "peterselie", "Peterselie", "groente", "",
+     ["vitamine C", "ijzer", "silicium", "B-vitaminen", "caroteen"],
+     ["Uitzonderlijk veel vitamine C: 80 tot 300 mg per 100 gram",
+      "IJzer helpt bij de aanmaak van rode bloedcellen", "Helpt een maaltijd sneller te verteren"],
+     "Kauw na een avondje knoflook op een takje peterselie, dan ruik je weer fris."),
+    ("gember", "gember", "Gemberwortel", "groente", "1 duimpje",
+     ["gingerol", "shogaol", "vitamine B1, B2, B6 en C", "kalium", "magnesium", "zink"],
+     ["Gingerol helpt tegen misselijkheid, ook bij reisziekte en zwangerschap",
+      "Stimuleert de aanmaak van speeksel, waardoor je eten beter verteert",
+      "Helpt tegen een opgeblazen gevoel", "Ondersteunt je weerstand, ook bij keelpijn en griepgevoel"],
+     "Marco Polo zou gember als eerste vanuit China naar Europa hebben gebracht."),
+    ("avocado", "avocado", "Avocado", "fruit", "",
+     ["onverzadigde vetten", "kalium", "ijzer", "eiwit"],
+     ["Onverzadigde vetten dragen bij aan een normaal cholesterolgehalte",
+      "Gezonde vetten zijn goed voor je hersenen", "Ook goed voor je huid: daarom zit avocado in veel schoonheidsmaskers"],
+     "Bij een rijpe avocado hoor je de pit rammelen als je schudt. Leuk weetje: de likeur advocaat dankt zijn naam aan de avocado."),
+    ("banaan", "banaan", "Banaan", "fruit", "1 stuk",
+     ["kalium", "vitamine B6", "vitamine A, B1, B2 en C", "tryptofaan", "vezels"],
+     ["Geeft energie: zowel snelle als langzame suikers",
+      "Vitamine B6 ondersteunt de samenwerking tussen zenuwen en spieren",
+      "Kalium draagt bij aan een normale bloeddruk", "Vezels ondersteunen een goede stoelgang",
+      "Tryptofaan is een bouwstof voor serotonine, het stofje dat je beter laat voelen"],
+     "Hoe geler de banaan, hoe meer vitamine A. Vergeleken met een appel bevat een banaan vier keer zoveel eiwit en vijf keer zoveel ijzer."),
+    ("blauwe-bessen", "blauwe-bessen", "Blauwe bessen", "fruit", "",
+     ["antioxidanten", "vitamine A, B en C", "magnesium", "ijzer"],
+     ["Van alle fruit het hoogste gehalte aan antioxidanten",
+      "Antioxidanten beschermen je lichaam tegen oxidatieve stress, een van de oorzaken van veroudering",
+      "Vitamine C draagt bij aan je weerstand"],
+     "De blauwe bes komt uit Noord-Amerika en werd eerst vooral als kleurstof gebruikt."),
+    ("citroen", "citroen", "Citroen", "fruit", "½ stuk",
+     ["vitamine C", "flavonoïden", "rutine", "limoneen"],
+     ["Vitamine C draagt bij aan je weerstand",
+      "Vitamine C helpt je lichaam plantaardig ijzer op te nemen",
+      "Stimuleert je darmen en een regelmatige stoelgang",
+      "Antioxidanten gaan vrije radicalen tegen"],
+     "Edmund Hillary, de eerste op de top van de Mount Everest, zei dat het zonder citroenen niet was gelukt."),
+    ("kiwi", "kiwi", "Kiwi", "fruit", "1 stuk",
+     ["vitamine C", "kalium", "foliumzuur", "magnesium", "zink", "vitamine E", "vezels"],
+     ["Eén kiwi levert 166% van je dagelijkse behoefte aan vitamine C",
+      "Vitamine C helpt bij de opname van ijzer en koper",
+      "Kalium draagt bij aan een normale bloeddruk", "Een vetarme bron van vitamine E"],
+     "Gooi de schil niet weg: de meeste vitamines zitten er net onder. Goed wassen en gewoon meeblenden."),
+    ("goji", "goji", "Goji bes", "fruit", "2 eetlepels (20 g)",
+     ["vitamine C, A, B1 en B2", "ijzer", "koper", "magnesium", "calcium", "aminozuren", "polysachariden"],
+     ["Een van de meest voedingsrijke vruchten op aarde",
+      "Polysachariden zorgen voor een geleidelijke stijging van je bloedsuiker",
+      "Geeft lang een verzadigd gevoel"],
+     "Ook gedroogd behoudt de goji bes bijna al zijn voedingswaarde."),
+    ("amandel", "amandel", "Amandelen", "zaden", "10 stuks",
+     ["eiwit (19,5%)", "vezels", "onverzadigde vetten", "vitamine E", "calcium", "kalium"],
+     ["Vitamine E helpt je cellen te beschermen tegen oxidatieve schade",
+      "Onverzadigde vetten dragen bij aan een normaal cholesterolgehalte",
+      "Eiwit helpt je spiermassa te behouden, een goede vleesvervanger", "Van alle noten de meeste calcium",
+      "Vezels geven een lang verzadigd gevoel"],
+     "Eigenlijk geen noot maar een steenvrucht. Veel calorieën, dus met mate."),
+    ("chia", "chia", "Chiazaad", "zaden", "max. 2 à 3 eetlepels per dag",
+     ["omega-3", "eiwitten", "vezels (40%)", "vitaminen", "mineralen"],
+     ["De rijkste plantaardige bron van omega-3 vetzuren, goed voor hart en bloedvaten",
+      "Eiwitten ondersteunen je spierherstel", "Vezels zijn goed voor je darmwerking",
+      "Geeft lang een vol gevoel en minder trek in zoetigheid"],
+     "Laat de zaadjes 10 minuten weken in koud water. Ze worden dan gelachtig en je lichaam neemt de voedingsstoffen makkelijker op. Niet meer dan 2 à 3 eetlepels per dag en wissel af met lijnzaad."),
+    ("hennepzaad", "hennepzaad", "Hennepzaad", "zaden", "",
+     ["complete eiwitten", "essentiële vetzuren", "gamma-linoleenzuur", "magnesium", "zink", "vitamine E, C en B"],
+     ["Een complete eiwitbron met alle essentiële aminozuren",
+      "Het hoogste percentage essentiële vetzuren van vrijwel elk zaad, een goed alternatief voor vis",
+      "Mineralen als fosfor, calcium en magnesium zijn goed voor je botten"],
+     "Hennep groeit zonder pesticiden en is dus duurzaam. Hennep is niet hetzelfde als marihuana: het verschil zit in het THC-gehalte."),
+    ("lijnzaad", "lijnzaad", "Lijnzaad", "zaden", "2 eetlepels",
+     ["omega-3", "omega-6", "vitamine B1 en B2", "calcium", "magnesium", "zink", "kalium"],
+     ["Omega-3 vetzuren zijn goed voor je ogen, je hersenen en je hormoonhuishouding"],
+     "Koop heel lijnzaad en kneus het vlak voor gebruik, of gooi het zo in de blender. Gebroken lijnzaad oxideert en verliest zijn waarde. Drink er ruim water bij."),
+    ("pompoenpitten", "pompoenpitten", "Pompoenpitten", "zaden", "",
+     ["vitamine E", "mangaan", "magnesium", "ijzer", "zink", "koper", "fosfor"],
+     ["100 gram bevat 237% van je dagelijkse behoefte aan vitamine E",
+      "Rijk aan magnesium en ijzer: goed tegen vermoeidheid",
+      "Zink draagt bij aan een normaal testosterongehalte"],
+     "De percentages gelden voor 100 gram. Een handje in je smoothie is dus een deel daarvan."),
+    ("bijenpollen", "bijenpollen", "Bijenpollen", "superfood", "",
+     ["vitamine A, B, C, D en E", "selenium", "calcium", "magnesium", "enzymen", "aminozuren"],
+     ["Vitaminen dragen bij aan je energie, spijsvertering en weerstand",
+      "Calcium en magnesium zijn goed voor stevige botten",
+      "Selenium helpt je cellen te beschermen", "Caloriearm"],
+     "Ook puur te eten. Allergisch voor bijenproducten? Sla dit ingrediënt dan over."),
+    ("chlorella", "chlorella", "Chlorella poeder", "superfood", "2 theelepels (10 g)",
+     ["eiwit (60%)", "chlorofyl", "zink", "vitaminen", "mineralen", "aminozuren"],
+     ["Zink draagt bij aan gezonde huid, haar en nagels",
+      "Helpt de opname van ijzer uit bladgroenten",
+      "Ondersteunt je immuunsysteem", "De rijkste natuurlijke bron van chlorofyl"],
+     "Chlorella is een eencellige alg uit zoetwatervijvers. De smaak is intens, dus houd je aan de portie."),
+    ("hennep-eiwit", "hennep-eiwit", "Hennep eiwit", "superfood", "1 à 2 eetlepels (20-30 g)",
+     ["eiwit (50%)", "alle essentiële aminozuren", "omega-3 en omega-6", "ijzer", "magnesium", "zink"],
+     ["Een van de rijkste bronnen van plantaardige eiwitten, populair bij sporters",
+      "Eiwit draagt bij aan opbouw en behoud van spiermassa",
+      "Glutenvrij en geschikt bij lactose-intolerantie en voor vegetariërs"],
+     "Gemaakt van de pulp die overblijft na het koud persen van hennepolie."),
+    ("maca", "maca", "Maca poeder", "superfood", "1 eetlepel",
+     ["ijzer", "calcium", "vitamine B3", "enzymen", "essentiële aminozuren"],
+     ["Een echt energiebommetje", "Staat bekend om het verminderen van stressgevoel",
+      "Wordt van oudsher gebruikt om het libido te verhogen"],
+     "Maca groeit in Peru boven de 2.500 meter. De Inca's gaven het hun krijgers voor energie en kracht."),
+    ("tarwegras", "tarwegras", "Tarwegras", "superfood", "",
+     ["vitamine A, B, C, E en K", "ijzer", "kalium", "calcium", "magnesium", "zink"],
+     ["Bevat een goede balans van de vitaminen en mineralen die je nodig hebt",
+      "Een energieboost", "Staat bekend om zijn reinigende werking"],
+     "Tarwegras zijn de jonge scheuten van de tarweplant."),
+    ("kokoswater", "kokoswater", "Kokoswater", "basis", "¼ liter",
+     ["kalium", "calcium", "magnesium", "natrium", "vitamine B2", "fosfor"],
+     ["Hydrateert sterk, ideaal voor sporters",
+      "Kalium draagt bij aan een normale bloeddruk en spierwerking",
+      "Helpt bij herstel na inspanning", "Bijna geen vet"],
+     "500 ml kokoswater bevat evenveel kalium als 3 bananen. Het bevat wel natuurlijke suikers, dus niet te veel per dag."),
+    ("kokosvet", "kokosvet", "Kokosolie", "basis", "",
+     ["MCT-vetzuren", "laurinezuur (50%)"],
+     ["Helpt je lichaam calcium, magnesium en de vitamines A, D, E en K op te nemen",
+      "Laurinezuur ondersteunt je weerstand",
+      "MCT-vetzuren breekt je lichaam makkelijker af dan de meeste andere verzadigde vetten"],
+     "Koud gebruiken? Kies de ongeraffineerde, niet-ontgeurde versie. Kokosolie is ook goed om in te bakken."),
+    ("olijfolie", "olijfolie", "Olijfolie (koud geperst)", "basis", "4 eetlepels (50 ml)",
+     ["enkelvoudig onverzadigde vetzuren", "antioxidanten"],
+     ["Onverzadigde vetzuren dragen bij aan een normaal cholesterolgehalte",
+      "Antioxidanten beschermen je cellen tegen veroudering",
+      "Bevat een stof met een ontstekingsremmende werking"],
+     "Koude olijfolie is veel gezonder dan verhitte. Kies daarom altijd koud geperst."),
 ]
 CATS = [("alle", "Alles"), ("groente", "Groente"), ("fruit", "Fruit"), ("zaden", "Zaden & noten"),
         ("superfood", "Poeders & superfoods"), ("basis", "Vloeistof & olie")]
@@ -765,33 +908,48 @@ CATS = [("alle", "Alles"), ("groente", "Groente"), ("fruit", "Fruit"), ("zaden",
 
 def ingredienten():
     knoppen = "".join(f'<button type="button" data-cat="{c}" aria-pressed="{str(c == "alle").lower()}">{n}</button>' for c, n in CATS)
-    tegels = "".join(f'<article class="ing" data-cat="{cat}"><img src="assets/img/ing/{img}.webp" alt="" loading="lazy"><h3>{naam}</h3><p>{t}</p></article>'
-                     for img, naam, cat, t in INGR)
+    catnaam = dict(CATS)
+
+    def kaart(anker, img, naam, cat, portie, rijk, doet, tip):
+        chips = "".join(f"<li>{r}</li>" for r in rijk)
+        lijst = "".join(f"<li>{d}</li>" for d in doet)
+        port = f'<span class="label">Per smoothie: {portie}</span>' if portie else ""
+        return f"""<article class="ing reveal" id="{anker}" data-cat="{cat}">
+  <div class="ing-kop"><img src="assets/img/ing/{img}.webp" alt="{naam}" loading="lazy">
+    <div><span class="kicker">{catnaam[cat]}</span><h3>{naam}</h3>{port}</div></div>
+  <p class="ing-sub">Rijk aan</p><ul class="chips">{chips}</ul>
+  <p class="ing-sub">Wat doet het voor je lijf?</p><ul class="vink klein-vink">{lijst}</ul>
+  <p class="ing-tip"><strong>Goed om te weten:</strong> {tip}</p>
+</article>"""
+
+    tegels = "".join(kaart(*i) for i in INGR)
+    index = " · ".join(f'<a href="#{i[0]}">{i[2]}</a>' for i in sorted(INGR, key=lambda x: x[2]))
     inhoud = f"""
 <section class="pagina-hero">
   <img class="bg" src="assets/img/jm-pepers.webp" alt="" fetchpriority="high">
   <div class="wrap">
     <div class="kruimel"><a href="index.html">Home</a> / Ingrediënten</div>
     <h1>Onze <span class="markeer">nuttige</span> ingrediënten</h1>
-    <p>Gewoon te koop in Nederland, betaalbaar en met een reden in de blend. Dit zijn de 29 ingrediënten waarmee wij werken.</p>
+    <p>29 ingrediënten, gewoon verkrijgbaar in Nederland en betaalbaar. Per ingrediënt zie je wat erin zit, wat het voor je lijf doet en hoeveel je per smoothie gebruikt.</p>
   </div>
 </section>
 
 <section class="sectie wit">
   <div class="wrap">
-    <div class="split" style="margin-bottom:56px">
+    <div class="split" style="margin-bottom:48px">
       <div>
-        <span class="kicker">The smooth way</span>
-        <h2>Meer rauwe groente, zonder gedoe</h2>
+        <span class="kicker">Nut boven smaak</span>
+        <h2>Elk ingrediënt heeft een reden</h2>
       </div>
       <div>
-        <p>Groente en fruit rauw eten is een goed idee. Maar wie eet er nou een krop boerenkool? Met voldoende water in de blender gaat het ineens heel makkelijk. Combineer zelf zoveel mogelijk, of gebruik onze Configurators als startpunt.</p>
-        <p class="klein">Tip: begin met veel groente en weinig fruit. Je smaak went sneller dan je denkt.</p>
+        <p>Groente en fruit bevatten vrijwel alle voedingsstoffen die je lichaam nodig heeft. Veel daarvan gaan verloren bij koken en bakken. In de blender blijven ze heel. Met voldoende water erbij drink je ze zo weg.</p>
+        <p>In onze Smoothie Configurators bepaalt het doel van je smoothie welke ingrediënten erin gaan. Niet de smaak. Hieronder zie je waarom.</p>
       </div>
     </div>
     <div class="filters" role="group" aria-label="Filter op soort">{knoppen}</div>
-    <div class="raster r4">{tegels}</div>
-    <p class="melding" style="margin-top:36px">Smoothieclub geeft geen medisch advies. Een smoothie is een aanvulling op een gevarieerd eetpatroon, geen vervanging. Gebruik je medicijnen of heb je een allergie? Overleg dan eerst met je arts.</p>
+    <p class="ing-index klein">{index}</p>
+    <div class="raster r2 ing-raster">{tegels}</div>
+    <p class="melding" style="margin-top:36px">Smoothieclub geeft geen medisch advies. Een smoothie is een aanvulling op een gevarieerd eetpatroon, geen vervanging en geen medicijn. Gebruik je medicijnen, ben je zwanger of heb je een allergie? Overleg dan eerst met je arts.</p>
   </div>
 </section>
 
@@ -807,12 +965,11 @@ def ingredienten():
   </div>
 </section>
 """
-    return layout("ingredienten.html", "Ingrediënten voor gezonde smoothies | Smoothieclub",
-                  "De 29 ingrediënten waarmee Smoothieclub werkt: groente, fruit, zaden, poeders en olie. Betaalbaar, gewoon verkrijgbaar en met een reden in de blend.",
+    return layout("ingredienten.html", "Nuttige ingrediënten voor gezonde smoothies | Smoothieclub",
+                  "29 nuttige smoothie-ingrediënten: wat erin zit, wat het voor je lichaam doet en hoeveel je per smoothie gebruikt. Van boerenkool en gember tot chiazaad en kokoswater.",
                   inhoud, ORG)
 
 
-# ---------------------------------------------------------------- OVER
 def over():
     inhoud = f"""
 <section class="pagina-hero">
