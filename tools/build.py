@@ -1,6 +1,7 @@
 # Bouwt alle HTML-pagina's van de Smoothieclub-conceptsite.
 # Gebruik: python tools/build.py  (vanuit de hoofdmap van de repo)
 import json
+import re
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -631,7 +632,7 @@ PRODUCTEN = [
      "Hét hulpmiddel om kinderen meer groente en fruit te laten eten. 15 ingrediënten, elke blend bevat een portie groente en wordt toegankelijk gemaakt met zoet fruit. Laat je kind kiezen: vandaag sterk, slim of cool?",
      "8,75", "PDF € 8,75 · gelamineerd € 12,50"),
     ("kids-smoothie-challenge", "p-challenge", "KIDS Smoothie Challenge", "Leeftijd 6+", "",
-     "In 8 levels leren de jongste kids zelf smoothies maken. Elke dag een level, en na 8 dagen verdienen ze een echt Smoothie Certificaat. Uitdagend, cool en belonend. Altijd samen met een volwassene snijden en blenden.",
+     "In 8 levels leren de jongste kids zelf smoothies maken. Elke dag een level. Na 8 dagen verdienen ze een echt Smoothie Certificaat. Uitdagend, cool en belonend. Altijd samen met een volwassene snijden en blenden.",
      "8,75", "PDF € 8,75 · gelamineerd € 10,95"),
     ("smoothieclub-totaalpakket", "p-totaal", "Totaalpakket voor het hele gezin", "Leeftijd 6+ tot 99", "Voordeligst",
      "Alle drie de Configurators in één pakket: de Challenge, de KIDS Configurator en de Smoothie Configurator voor volwassenen. Het hele gezin kan direct aan de slag.",
@@ -777,7 +778,7 @@ INGR = [
      ["Carotenoïden worden in je lichaam omgezet in vitamine A, goed voor je ogen",
       "Boordevol vezels en mineralen",
       "Onderzoek wijst erop dat wortels de kwaliteit van sperma kunnen verbeteren"],
-     "Rook je? Wees dan zuinig met wortelsap. De concentratie caroteen is daarin veel hoger, en te veel caroteen is voor rokers juist ongunstig."),
+     "Rook je? Wees dan zuinig met wortelsap. De concentratie caroteen is daarin veel hoger. Te veel caroteen is voor rokers juist ongunstig."),
     ("peterselie", "peterselie", "Peterselie", "groente", "",
      ["vitamine C", "ijzer", "silicium", "B-vitaminen", "caroteen"],
      ["Uitzonderlijk veel vitamine C: 80 tot 300 mg per 100 gram",
@@ -1132,5 +1133,8 @@ if __name__ == "__main__":
     for naam, fn in PAGINAS.items():
         html = fn()
         assert "—" not in html, f"em dash in {naam}"
+        zichtbaar = re.sub(r"<[^>]+>", " ", re.sub(r"<script.*?</script>|<style.*?</style>", "", html, flags=re.S))
+        fout = re.search(r".{0,40},\s+en.{0,20}", zichtbaar)
+        assert not fout, f'", en" in {naam}: {fout.group(0) if fout else ""}'  # huisstijl JM: nooit komma voor "en"
         (ROOT / naam).write_text(html, encoding="utf-8")
         print("gebouwd:", naam)
