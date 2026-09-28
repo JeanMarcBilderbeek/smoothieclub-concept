@@ -10,6 +10,25 @@ TEL_LINK = "tel:+31650745730"
 WA = "https://wa.me/31650745730?text=Hoi%20Jean-Marc%2C%20ik%20heb%20een%20vraag%20over%20Smoothieclub"
 MAIL = "info@smoothieclub.nl"
 
+# Social-kanalen: (naam, url, svg-pad). Nieuwe kanalen hier toevoegen.
+SOCIAL = [
+    ("LinkedIn", "https://www.linkedin.com/company/smoothieclub/",
+     "M20.4 20.5h-3.6v-5.6c0-1.3 0-3-1.8-3s-2.1 1.4-2.1 2.9v5.7H9.3V9h3.4v1.6h.1c.5-.9 1.6-1.8 3.4-1.8 3.6 0 4.3 2.4 4.3 5.5v6.2zM5.3 7.4a2.1 2.1 0 1 1 0-4.2 2.1 2.1 0 0 1 0 4.2zM7.1 20.5H3.5V9h3.6v11.5z"),
+    ("Instagram", "https://www.instagram.com/smoothieclub/",
+     "M12 7.2a4.8 4.8 0 1 0 0 9.6 4.8 4.8 0 0 0 0-9.6zm0 7.9a3.1 3.1 0 1 1 0-6.2 3.1 3.1 0 0 1 0 6.2zm6.1-8.1a1.1 1.1 0 1 1-2.2 0 1.1 1.1 0 0 1 2.2 0zM21.9 8c-.1-1.6-.4-3-1.6-4.2S17.6 2.2 16 2.1C14.4 2 9.6 2 8 2.1 6.4 2.2 5 2.5 3.8 3.7S2.2 6.4 2.1 8C2 9.6 2 14.4 2.1 16c.1 1.6.4 3 1.6 4.2s2.6 1.5 4.2 1.6c1.6.1 6.4.1 8 0 1.6-.1 3-.4 4.2-1.6s1.5-2.6 1.6-4.2c.1-1.6.1-6.4 0-8zm-2.1 9.7a3.2 3.2 0 0 1-1.8 1.8c-1.3.5-4.3.4-5.7.4s-4.4.1-5.7-.4a3.2 3.2 0 0 1-1.8-1.8c-.5-1.3-.4-4.3-.4-5.7s-.1-4.4.4-5.7A3.2 3.2 0 0 1 6.6 4.5c1.3-.5 4.3-.4 5.7-.4s4.4-.1 5.7.4a3.2 3.2 0 0 1 1.8 1.8c.5 1.3.4 4.3.4 5.7s.1 4.4-.4 5.7z"),
+    ("Facebook", "https://www.facebook.com/smoothieclub",
+     "M22 12a10 10 0 1 0-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.3c-1.2 0-1.6.8-1.6 1.6V12h2.8l-.4 2.9h-2.3v7A10 10 0 0 0 22 12z"),
+    ("YouTube", "https://www.youtube.com/channel/UCpndQ3--uPgfoFt1ceTe8Ew/",
+     "M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8zM9.6 15.6V8.4l6.2 3.6-6.2 3.6z"),
+]
+
+
+def social_iconen(klasse="social"):
+    return f'<ul class="{klasse}">' + "".join(
+        f'<li><a href="{u}" rel="noopener" target="_blank" aria-label="Smoothieclub op {n}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="{d}"/></svg></a></li>'
+        for n, u, d in SOCIAL) + "</ul>"
+
+
 NAV = [
     ("workshops.html", "Workshops"),
     ("keynote.html", "Keynote"),
@@ -76,6 +95,8 @@ def layout(bestand, titel, omschrijving, inhoud, schema=None):
       <a class="logo-wit" href="index.html"><img src="assets/img/logo.webp" alt="Smoothieclub" width="480" height="178"></a>
       <p>Gezonde teams blenden beter. Workshops, keynotes en Blendboxen die mensen in beweging brengen. Met de smoothie als metafoor.</p>
       <p class="klein">Smoothieclub is onderdeel van Kaders B.V. (Kaderloos), Rotterdam.</p>
+      <p style="margin:14px 0 8px;color:#fff;font-weight:800">Volg Smoothieclub</p>
+      {social_iconen()}
     </div>
     <div>
       <h4>Voor organisaties</h4>
@@ -101,8 +122,7 @@ def layout(bestand, titel, omschrijving, inhoud, schema=None):
         <li><a href="{TEL_LINK}">{TEL}</a></li>
         <li><a href="mailto:{MAIL}">{MAIL}</a></li>
         <li><a href="{WA}" rel="noopener">WhatsApp</a></li>
-        <li><a href="https://www.youtube.com/c/JeanMarcBilderbeek" rel="noopener">YouTube</a></li>
-        <li><a href="https://www.linkedin.com/in/jmbilderbeek" rel="noopener">LinkedIn</a></li>
+        <li><a href="https://www.linkedin.com/in/jmbilderbeek" rel="noopener">Jean-Marc op LinkedIn</a></li>
       </ul>
     </div>
     <div class="onder">
@@ -184,6 +204,7 @@ ORG = {
     "founder": {"@type": "Person", "name": "Jean-Marc Bilderbeek"},
     "parentOrganization": {"@type": "Organization", "name": "Kaders B.V."},
     "address": {"@type": "PostalAddress", "addressLocality": "Rotterdam", "addressCountry": "NL"},
+    "sameAs": [u for _, u, _ in SOCIAL],
 }
 
 # ---------------------------------------------------------------- HOME
@@ -893,6 +914,9 @@ def contact():
           <a href="mailto:{MAIL}">✉ {MAIL}</a>
         </div>
       </div>
+      <h3 style="margin-top:32px">Volg ons</h3>
+      <p>Recepten, tips en een kijkje achter de schermen bij onze workshops.</p>
+      {social_iconen("social donker")}
       <p class="klein" style="margin-top:24px">Smoothieclub is onderdeel van Kaders B.V., Rotterdam · KvK 51210010 · <a href="https://www.kaderloos.nl" rel="noopener">kaderloos.nl</a></p>
     </div>
     <form class="formulier" id="offerte" novalidate>

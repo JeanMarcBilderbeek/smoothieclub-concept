@@ -248,3 +248,10 @@ table.vergelijk{width:100%;border-collapse:collapse;background:#fff;min-width:72
 .reveal{opacity:0;transform:translateY(18px);transition:opacity .6s,transform .6s}
 .reveal.zichtbaar{opacity:1;transform:none}
 @media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
+
+/* social-iconen */
+.social{list-style:none;padding:0;margin:0;display:flex;gap:10px;flex-wrap:wrap}
+.social a{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;background:#34343d;transition:background .15s,transform .15s}
+.social a:hover{background:var(--groen-d);transform:translateY(-2px)}
+.social svg{width:20px;height:20px;fill:#fff}
+.social.donker a{background:var(--inkt)}
