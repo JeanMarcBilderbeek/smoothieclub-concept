@@ -1134,7 +1134,7 @@ if __name__ == "__main__":
         html = fn()
         assert "—" not in html, f"em dash in {naam}"
         zichtbaar = re.sub(r"<[^>]+>", " ", re.sub(r"<script.*?</script>|<style.*?</style>", "", html, flags=re.S))
-        fout = re.search(r".{0,40},\s+en.{0,20}", zichtbaar)
+        fout = re.search(r".{0,40},\s+en\b.{0,20}", zichtbaar)
         assert not fout, f'", en" in {naam}: {fout.group(0) if fout else ""}'  # huisstijl JM: nooit komma voor "en"
         (ROOT / naam).write_text(html, encoding="utf-8")
         print("gebouwd:", naam)
